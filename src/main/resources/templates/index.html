@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Web Crawler</title>
     
     <link th:href="@{/styles.css}" rel="stylesheet">
@@ -11,15 +11,18 @@
 <div class="container">
     <h1 class="py-4 text-center">Basic Web Crawler</h1>
     
-    <form>
+    <form action="#" th:action="@{/crawler}" th:object="${request}" method="post">
         <div class="form-group">
             <label for="searchText">Set a URL</label>
             <input type="text" class="form-control" id="searchText"
-                   placeholder="https://www.google.com">
+                   placeholder="https://www.google.com" th:field="*{url}">
         </div>
         
         <button type="submit" class="btn btn-primary my-2">Submit</button>
+        
     </form>
+    
+    <p th:text="${exampleValue}" />
 </div>
 </body>
 </html>

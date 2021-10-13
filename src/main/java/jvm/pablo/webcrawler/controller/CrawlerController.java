@@ -27,4 +27,5 @@ public class CrawlerController {
         List<String> urls = crawlerService.findUrls(url);
         return ResponseEntity.ok(urls);
     }
+
 }
