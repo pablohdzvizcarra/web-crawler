@@ -33,7 +33,9 @@ public class TemplateController {
         List<String> urls = crawlerService.findUrls(data.getUrl());
 
         model.addAttribute("request", new UrlRequest());
-        return "index";
+        model.addAttribute("listUrls", urls);
+
+        return "withUrls";
     }
 
 }
