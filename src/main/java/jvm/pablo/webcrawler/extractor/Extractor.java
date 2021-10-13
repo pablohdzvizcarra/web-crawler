@@ -12,17 +12,21 @@ import java.util.List;
 @Component
 public class Extractor {
 
-    public List<String> extractUrl(String urls) {
-        List<String> urlsList = new ArrayList<>();
+    public List<String> extractUrls(String urls) {
         UrlDetector parser = new UrlDetector(urls, UrlDetectorOptions.Default);
         List<Url> found = parser.detect();
 
-        urlsList.add("The url contains inside: " + found.size() + " urls");
+        return formatList(found);
+    }
+
+    private List<String> formatList(List<Url> found) {
+        List<String> list = new ArrayList<>();
+        list.add("The url contains inside: " + found.size() + " urls");
 
         found.forEach(url ->
-                urlsList.add(url.getFullUrl())
+                list.add(url.getFullUrl())
         );
 
-        return urlsList;
+        return list;
     }
 }

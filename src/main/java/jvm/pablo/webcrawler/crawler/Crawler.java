@@ -46,6 +46,6 @@ public class Crawler {
     }
 
     public List<String> processSubUrls(String url) {
-        return extractor.extractUrl(url);
+        return extractor.extractUrls(url);
     }
 }

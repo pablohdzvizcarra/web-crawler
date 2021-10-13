@@ -49,7 +49,7 @@ class CrawlerTest {
         Crawler crawler = new Crawler(extractor);
         String urlBody = crawler.processUrl(TEST_URL);
 
-        when(extractor.extractUrl(anyString()))
+        when(extractor.extractUrls(anyString()))
                 .thenReturn(Arrays.asList("google", "facebook"));
 
         List<String> urls = crawler.processSubUrls(urlBody);
