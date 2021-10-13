@@ -21,10 +21,9 @@
         <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
     
-    <p th:text="${#lists.size(listUrls)}"></p>
-    <tr th:each="url: ${listUrls}">
-        <td th:text="${url}"></td>
-    </tr>
+    <ul th:each="url: ${listUrls}" class="list-group">
+        <li th:text="${url}" class="list-group-item"></li>
+    </ul>
 
 </div>
 </body>
