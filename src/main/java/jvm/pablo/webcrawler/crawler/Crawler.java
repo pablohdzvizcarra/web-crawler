@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
 import jvm.pablo.webcrawler.extractor.Extractor;
@@ -42,5 +43,9 @@ public class Crawler {
         } catch (Exception e) {
             throw new InvalidUrlFormatException(url);
         }
+    }
+
+    public List<String> processSubUrls(String url) {
+        return extractor.extractUrl(url);
     }
 }
