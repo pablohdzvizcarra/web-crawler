@@ -13,7 +13,7 @@ class ExtractorTest {
     void testThatGetUrlsInsideString() {
         Extractor underTest = new Extractor();
         String urls = "data feo todos https://github.com/PabloHdzVizcarra  asdkljnasdnj " +
-                "::: https://www.baeldung.com/assertj-exception-assertion";
+                "::: https://www.baeldung.com/assertj-exception-assertion simple-data";
         int expectedSize = 2;
 
         List<String> actual = underTest.extractUrl(urls);
