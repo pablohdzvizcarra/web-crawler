@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Crawler</title>
+    
+    <link th:href="@{/styles.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="py-4 text-center">Basic Web Crawler</h1>
+    
+    <form>
+        <div class="form-group">
+            <label for="searchText">Set a URL</label>
+            <input type="text" class="form-control" id="searchText"
+                   placeholder="https://www.google.com">
+        </div>
+        
+        <button type="submit" class="btn btn-primary my-2">Submit</button>
+    </form>
+</div>
+</body>
+</html>
