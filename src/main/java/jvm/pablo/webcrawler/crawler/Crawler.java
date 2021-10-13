@@ -9,6 +9,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+
 @Component
 public class Crawler {
 
@@ -28,10 +30,8 @@ public class Crawler {
 
             return response.body();
 
-        } catch (URISyntaxException | IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new InvalidUrlFormatException(url);
         }
-
-        return null;
     }
 }
