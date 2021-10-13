@@ -6,19 +6,23 @@ import com.linkedin.urls.detection.UrlDetectorOptions;
 
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class Extractor {
 
     public List<String> extractUrl(String urls) {
+        List<String> urlsList = new ArrayList<>();
         UrlDetector parser = new UrlDetector(urls, UrlDetectorOptions.Default);
         List<Url> found = parser.detect();
 
+        urlsList.add("The url contains inside: " + found.size() + " urls");
 
-        return found.stream()
-                .map(Url::getFullUrl)
-                .collect(Collectors.toUnmodifiableList());
+        found.forEach(url ->
+                urlsList.add(url.getFullUrl())
+        );
+
+        return urlsList;
     }
 }
