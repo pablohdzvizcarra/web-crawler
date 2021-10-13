@@ -27,5 +27,6 @@ test {
 }
 
 jar {
+    // delete extra generated file with name plain about spring boot app
     enabled = false
 }
