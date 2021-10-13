@@ -1,0 +1,26 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  tests:
+    name: --Gradle Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Up JDK
+      - uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+
+      - name: Test with gradle
+        run: ./gradlew test --stacktrace
