@@ -18,7 +18,7 @@ class ExtractorTest {
 
     @Test
     void testThatGetUrlsInsideString() {
-        String urls = "data feo todos https://github.com/PabloHdzVizcarra  asdkljnasdnj " +
+        String urls = "data feo todos https://www.github.com/PabloHdzVizcarra  asdkljnasdnj " +
                 "::: https://www.baeldung.com/assertj-exception-assertion simple-data";
         int expectedSize = 3;
 
@@ -29,7 +29,7 @@ class ExtractorTest {
 
     @Test
     void testThatMustReturnFirstLineNumberUrlsMessage() {
-        String urls = "data feo todos https://github.com/PabloHdzVizcarra" +
+        String urls = "data feo todos https://www.github.com/PabloHdzVizcarra" +
                 "::: https://www.baeldung.com/assertj-exception-assertion simple-data";
 
         List<String> list = extractor.extractUrls(urls);
@@ -38,5 +38,18 @@ class ExtractorTest {
         String expectedLine = "inside: " + size;
 
         assertThat(actualFirstLine).contains(expectedLine);
+    }
+
+    @Test
+    void testThatFilterByInvalidLink() {
+        String urls = "data feo todos https://www.github.com/PabloHdzVizcarra" +
+                "::: https://www.baeldung.com/assertj-exception-assertion simple-data" +
+                "http://data.com";
+
+        List<String> list = extractor.extractUrls(urls);
+        int actualSize = list.size();
+        int expectedSize = 3;
+
+        assertThat(actualSize).isEqualTo(expectedSize);
     }
 }
