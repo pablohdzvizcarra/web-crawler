@@ -6,29 +6,80 @@ import com.linkedin.urls.detection.UrlDetectorOptions;
 
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+
 @Component
-public class ExtractorImpl {
+public class ExtractorImpl implements Extractor {
 
-    public List<String> extractUrls(String urls) {
-        UrlDetector parser = new UrlDetector(urls, UrlDetectorOptions.JAVASCRIPT);
-        List<Url> found = parser.detect();
+    @Override
+    public String extractHtmlStringToUrl(String url) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(url))
+                    .GET()
+                    .build();
 
-        return formatList(found);
+            HttpClient client = HttpClient.newBuilder()
+                    .build();
+
+            HttpResponse<String> response = client.send(
+                    request, HttpResponse.BodyHandlers.ofString());
+
+            return response.body();
+
+        } catch (Exception e) {
+            throw new InvalidUrlFormatException(url);
+        }
     }
 
-    private List<String> formatList(List<Url> found) {
-        List<String> list = new ArrayList<>();
-        list.add("The url contains inside: " + found.size() + " urls");
+    @Override
+    public Set<String> extractUrlsInsidePrimaryUrl(String url) {
+        if (!urlIsValid(url))
+            return null;
 
-        found.stream()
+        String htmlString = extractHtmlStringToUrl(url);
+        UrlDetector parser = new UrlDetector(htmlString, UrlDetectorOptions.Default);
+        List<Url> urlList = parser.detect();
+
+        return urlList.stream()
                 .map(Url::getFullUrl)
-                .filter(url -> url.startsWith("https://"))
-                .forEach(list::add);
+                .filter(subUrl -> subUrl.startsWith("https://"))
+                .collect(Collectors.toSet());
+    }
 
-        return list;
+    private boolean urlIsValid(String url) {
+        String regex = "((http|https)://)(www.)?"
+                + "[a-zA-Z0-9@:%._+~#?&/=]"
+                + "{2,256}\\.[a-z]"
+                + "{2,6}\\b([-a-zA-Z0-9@:%"
+                + "._+~#?&/=]*)";
+
+        Pattern pattern = Pattern.compile(regex);
+
+        if (url == null)
+            return false;
+        Matcher matcher = pattern.matcher(url);
+        return matcher.matches();
+    }
+
+    @Override
+    public List<Set<String>> extractNestedUrls(String url) {
+        Set<String> urls = extractUrlsInsidePrimaryUrl(url);
+
+        return urls.stream()
+                .map(this::extractUrlsInsidePrimaryUrl)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 }

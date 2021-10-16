@@ -1,15 +1,19 @@
 package jvm.pablo.webcrawler.extractor;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Set;
 
+import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-
 class ExtractorTest {
-    private ExtractorImpl extractor;
+    private Extractor extractor;
 
     @BeforeEach
     void setUp() {
@@ -17,39 +21,45 @@ class ExtractorTest {
     }
 
     @Test
-    void testThatGetUrlsInsideString() {
-        String urls = "data feo todos https://www.github.com/PabloHdzVizcarra  asdkljnasdnj " +
-                "::: https://www.baeldung.com/assertj-exception-assertion simple-data";
-        int expectedSize = 3;
+    @DisplayName("Extract HTML in format String to URL")
+    void extractHtmlStringToUrl() {
+        String url = "https://github.com/PabloHdzVizcarra";
 
-        List<String> actual = extractor.extractUrls(urls);
+        String actualHtmlString = extractor.extractHtmlStringToUrl(url);
+        String expectFormat = "<!DOCTYPE html>";
 
-        assertThat(actual.size()).isEqualTo(expectedSize);
+        assertThat(actualHtmlString)
+                .withFailMessage("The String extracted not correct format to HTML file")
+                .contains(expectFormat);
     }
 
     @Test
-    void testThatMustReturnFirstLineNumberUrlsMessage() {
-        String urls = "data feo todos https://www.github.com/PabloHdzVizcarra" +
-                "::: https://www.baeldung.com/assertj-exception-assertion simple-data";
+    @DisplayName("Should extract all urls inside the HTML with format String")
+    void extractUrlsInsideHtmlString() {
+        String url = "https://github.com/PabloHdzVizcarra";
 
-        List<String> list = extractor.extractUrls(urls);
-        String actualFirstLine = list.get(0);
-        int size = list.size() - 1;
-        String expectedLine = "inside: " + size;
-
-        assertThat(actualFirstLine).contains(expectedLine);
+        Set<String> actualUrlList = extractor.extractUrlsInsidePrimaryUrl(url);
+        
+        assertThat(actualUrlList.size() > 0).isTrue();
     }
 
     @Test
-    void testThatFilterByInvalidLink() {
-        String urls = "data feo todos https://www.github.com/PabloHdzVizcarra" +
-                "::: https://www.baeldung.com/assertj-exception-assertion simple-data" +
-                "http://data.com";
+    @DisplayName("Should be thrown a custom exception when url format isn't valid")
+    void testThatThrownExceptionWhenUrlFormatIsInvalid() {
+        String invalidUrl = "htt//invalid-url";
 
-        List<String> list = extractor.extractUrls(urls);
-        int actualSize = list.size();
-        int expectedSize = 3;
+        assertThatThrownBy(() -> extractor.extractHtmlStringToUrl(invalidUrl))
+                .isInstanceOf(InvalidUrlFormatException.class);
+    }
 
-        assertThat(actualSize).isEqualTo(expectedSize);
+    // TODO: 10/15/21 empty logic
+    @Test
+    @DisplayName("Should extract urls nested in another url")
+    void testThatExtractUrlsInsideAnotherUrls() {
+        String url = "https://github.com/EnzoDiazDev";
+
+        List<Set<String>> actualNestedUrls = extractor.extractNestedUrls(url);
+
+        assertThat(actualNestedUrls != null).isTrue();
     }
 }
