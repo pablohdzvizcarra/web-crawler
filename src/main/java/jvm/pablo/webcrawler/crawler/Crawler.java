@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+import jvm.pablo.webcrawler.extractor.Extractor;
 import jvm.pablo.webcrawler.extractor.ExtractorImpl;
 
 @Component
 public class Crawler {
 
-    private ExtractorImpl extractor;
+    private Extractor extractor;
 
     public Crawler() {
     }
@@ -40,23 +41,7 @@ public class Crawler {
     }
 
     public String processUrl(String url) {
-
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(url))
-                    .GET()
-                    .build();
-
-            HttpClient client = HttpClient.newBuilder()
-                    .build();
-
-            HttpResponse<String> response = client.send(
-                    request, HttpResponse.BodyHandlers.ofString());
-            return response.body();
-
-        } catch (Exception e) {
-            throw new InvalidUrlFormatException(url);
-        }
+        return null;
     }
 
     public List<String> processSubUrls(String url) {
