@@ -49,12 +49,13 @@ public class ExtractorImpl implements Extractor {
             return null;
 
         String htmlString = extractHtmlStringToUrl(url);
-        UrlDetector parser = new UrlDetector(htmlString, UrlDetectorOptions.Default);
+        UrlDetector parser = new UrlDetector(htmlString, UrlDetectorOptions.QUOTE_MATCH);
         List<Url> urlList = parser.detect();
 
         return urlList.stream()
                 .map(Url::getFullUrl)
                 .filter(subUrl -> subUrl.startsWith("https://"))
+//                .filter(this::urlIsValid)
                 .collect(Collectors.toSet());
     }
 
