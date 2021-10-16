@@ -22,7 +22,6 @@ public class Crawler {
         this.extractor = extractor;
     }
 
-    // TODO: 10/15/21 making the method work
     public List<Set<String>> recursiveFindUrls(String url) {
         return extractor.extractNestedUrls(url);
     }
