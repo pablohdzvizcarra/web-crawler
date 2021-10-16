@@ -28,4 +28,11 @@ public class CrawlerController {
         return ResponseEntity.ok(urls);
     }
 
+    @GetMapping(value = "/recursive", params = "url")
+    public ResponseEntity<?> findRecursive(@RequestParam String url) {
+        crawlerService.findRecursive(url);
+
+        return ResponseEntity.ok("ok");
+    }
+
 }

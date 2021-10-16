@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
-import jvm.pablo.webcrawler.extractor.Extractor;
+import jvm.pablo.webcrawler.extractor.ExtractorImpl;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -21,7 +21,7 @@ class CrawlerTest {
     private final String TEST_URL = "https://github.com/PabloHdzVizcarra";
 
     @Mock
-    private Extractor extractor;
+    private ExtractorImpl extractor;
 
     @Test
     void testThatProcessUrl() {

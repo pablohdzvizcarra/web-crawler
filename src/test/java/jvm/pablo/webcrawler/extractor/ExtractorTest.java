@@ -9,11 +9,11 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 
 class ExtractorTest {
-    private Extractor extractor;
+    private ExtractorImpl extractor;
 
     @BeforeEach
     void setUp() {
-        extractor = new Extractor();
+        extractor = new ExtractorImpl();
     }
 
     @Test
