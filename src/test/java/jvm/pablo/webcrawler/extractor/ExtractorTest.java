@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
@@ -42,8 +43,8 @@ class ExtractorTest {
         assertThat(actualUrlList.size() > 0).isTrue();
     }
 
-    // TODO: 10/15/21 empty logic
     @Test
+    @DisplayName("Should be thrown a custom exception when url format isn't valid")
     void testThatThrownExceptionWhenUrlFormatIsInvalid() {
         String invalidUrl = "htt//invalid-url";
 
@@ -55,6 +56,10 @@ class ExtractorTest {
     @Test
     @DisplayName("Should extract urls nested in another url")
     void testThatExtractUrlsInsideAnotherUrls() {
+        String url = "https://github.com/EnzoDiazDev";
 
+        List<Set<String>> actualNestedUrls = extractor.extractNestedUrls(url);
+
+        assertThat(actualNestedUrls != null).isTrue();
     }
 }

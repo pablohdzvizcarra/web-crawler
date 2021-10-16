@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.extractor.Extractor;
 import jvm.pablo.webcrawler.extractor.ExtractorImpl;
@@ -24,15 +23,12 @@ public class Crawler {
     }
 
     // TODO: 10/15/21 making the method work
-    public void recursiveFindUrls(String url) {
-
+    public List<Set<String>> recursiveFindUrls(String url) {
+        return extractor.extractNestedUrls(url);
     }
 
     public Set<String> processUrl(String url) {
-        return extractor.extractUrlsInsideHtmlString(url);
+        return extractor.extractUrlsInsidePrimaryUrl(url);
     }
 
-    public List<String> processSubUrls(String url) {
-        return extractor.extractUrls(url);
-    }
 }

@@ -6,7 +6,7 @@ import java.util.Set;
 public interface Extractor {
     String extractHtmlStringToUrl(String url);
 
-    Set<String> extractUrlsInsideHtmlString(String htmlString);
+    Set<String> extractUrlsInsidePrimaryUrl(String htmlString);
 
-    List<String> extractUrls(String url);
+    List<Set<String>> extractNestedUrls(String url);
 }
