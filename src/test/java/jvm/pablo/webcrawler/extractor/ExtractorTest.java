@@ -4,13 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-
 class ExtractorTest {
-    private ExtractorImpl extractor;
+    private Extractor extractor;
 
     @BeforeEach
     void setUp() {
@@ -65,5 +66,16 @@ class ExtractorTest {
         assertThat(actualHtmlString)
                 .withFailMessage("The String extracted not correct format to HTML file")
                 .contains(expectFormat);
+    }
+
+    @Test
+    @DisplayName("Should extract all urls inside the HTML with format String")
+    void extractUrlsInsideHtmlString() {
+        String url = "https://github.com/PabloHdzVizcarra";
+
+        Set<String> actualUrlList = extractor.extractUrlsInsideHtmlString(url);
+
+
+        assertThat(actualUrlList.size() > 0).isTrue();
     }
 }

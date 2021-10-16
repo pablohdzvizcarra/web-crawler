@@ -12,11 +12,13 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
 
 @Component
-public class ExtractorImpl implements Extractor{
+public class ExtractorImpl implements Extractor {
 
     @Override
     public List<String> extractUrls(String urls) {
@@ -60,7 +62,14 @@ public class ExtractorImpl implements Extractor{
     }
 
     @Override
-    public void extractUrlsInsideHtmlString(String htmlString) {
+    public Set<String> extractUrlsInsideHtmlString(String url) {
+        String htmlString = extractHtmlStringToUrl(url);
+        UrlDetector parser = new UrlDetector(htmlString, UrlDetectorOptions.Default);
+        List<Url> urlList = parser.detect();
 
+        return urlList.stream()
+                .map(Url::getFullUrl)
+                .filter(subUrl -> subUrl.startsWith("https://"))
+                .collect(Collectors.toSet());
     }
 }
