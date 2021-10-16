@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import jvm.pablo.webcrawler.crawler.Crawler;
 
@@ -22,9 +23,8 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
     @Override
-    public List<String> findUrls(String url) {
-        String htmlString = crawler.processUrl(url);
-        List<String> urlList = crawler.processSubUrls(htmlString);
+    public Set<String> findUrls(String url) {
+        Set<String> urlList = crawler.processUrl(url);
 
         logger.info(
                 "Find: " + urlList.size() + " urls inside the passed url: " + url

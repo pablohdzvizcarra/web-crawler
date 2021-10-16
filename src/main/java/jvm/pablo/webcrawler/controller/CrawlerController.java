@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
 import jvm.pablo.webcrawler.service.CrawlerService;
 
@@ -23,8 +23,8 @@ public class CrawlerController {
 
 
     @GetMapping(params = "url")
-    public ResponseEntity<List<String>> findUrls(@RequestParam String url) {
-        List<String> urls = crawlerService.findUrls(url);
+    public ResponseEntity<Set<String>> findUrls(@RequestParam String url) {
+        Set<String> urls = crawlerService.findUrls(url);
         return ResponseEntity.ok(urls);
     }
 
