@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.crawler.Crawler;
@@ -33,7 +33,7 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
     @Override
-    public List<Set<String>> findRecursive(String url) {
+    public Map<Set<String>, Set<String>> findRecursive(String url) {
         return crawler.recursiveFindUrls(url);
     }
 }

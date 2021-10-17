@@ -1,6 +1,6 @@
 package jvm.pablo.webcrawler.extractor;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface ExtractorUrl {
@@ -8,5 +8,5 @@ public interface ExtractorUrl {
 
     Set<String> extractUrlsInsidePrimaryUrl(String htmlString);
 
-    List<Set<String>> extractNestedUrls(String url);
+    Map<Set<String>, Set<String>> extractNestedUrls(String url);
 }

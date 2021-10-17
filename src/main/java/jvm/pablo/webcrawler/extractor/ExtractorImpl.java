@@ -12,14 +12,15 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
 import jvm.pablo.webcrawler.validator.ValidatorUrl;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toSet;
 
 @Component
 public class ExtractorImpl implements ExtractorUrl {
@@ -74,12 +75,11 @@ public class ExtractorImpl implements ExtractorUrl {
     }
 
     @Override
-    public List<Set<String>> extractNestedUrls(String url) {
+    public Map<Set<String>, Set<String>> extractNestedUrls(String url) {
         Set<String> urls = extractUrlsInsidePrimaryUrl(url);
 
-        return urls.stream()
-                .map(this::extractUrlsInsidePrimaryUrl)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        return urls.stream().collect(
+                groupingBy(this::extractUrlsInsidePrimaryUrl, toSet())
+        );
     }
 }
