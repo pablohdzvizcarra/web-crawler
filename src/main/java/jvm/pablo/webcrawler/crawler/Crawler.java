@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Set;
 
-import jvm.pablo.webcrawler.extractor.Extractor;
+import jvm.pablo.webcrawler.extractor.ExtractorUrl;
 import jvm.pablo.webcrawler.extractor.ExtractorImpl;
 
 @Component
 public class Crawler {
 
-    private Extractor extractor;
+    private ExtractorUrl extractor;
 
     public Crawler() {
     }

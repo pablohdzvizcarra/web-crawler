@@ -6,5 +6,5 @@ public interface ValidatorUrl {
 
     boolean validateHttpUrl(String httpUrl);
 
-    String cleanHtmlTagToUrl(String malformedUrl);
+    String cleanHtmlTagToUrl(String malformedUrl, char tagHtml);
 }

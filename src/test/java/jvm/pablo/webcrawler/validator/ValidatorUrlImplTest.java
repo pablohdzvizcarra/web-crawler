@@ -61,7 +61,7 @@ class ValidatorUrlImplTest {
     void testThatCleanValidUrl() {
         String malformedUrl = "https://pablo-urbano-hernandez-vizcarra.netlify.app/</a>";
 
-        String actualUrl = underTest.cleanHtmlTagToUrl(malformedUrl);
+        String actualUrl = underTest.cleanHtmlTagToUrl(malformedUrl, '<');
 
         assertThat(actualUrl).doesNotContain("<");
     }
@@ -71,7 +71,7 @@ class ValidatorUrlImplTest {
     void testThatReturnSameUrlWithCorrectFormat() {
         String url = "https://github.com/PabloHdzVizcarra";
 
-        String actualUrl = underTest.cleanHtmlTagToUrl(url);
+        String actualUrl = underTest.cleanHtmlTagToUrl(url, '<');
 
         assertThat(actualUrl).isEqualTo(url);
     }

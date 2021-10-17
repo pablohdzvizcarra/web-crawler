@@ -32,8 +32,8 @@ public class ValidatorUrlImpl implements ValidatorUrl {
     }
 
     @Override
-    public String cleanHtmlTagToUrl(String malformedUrl) {
-        int charIndex = malformedUrl.indexOf('<');
+    public String cleanHtmlTagToUrl(String malformedUrl, char tagHtml) {
+        int charIndex = malformedUrl.indexOf(tagHtml);
 
         if (charIndex < 0)
             return malformedUrl;

@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ExtractorTest {
-    private Extractor extractor;
+    private ExtractorUrl extractor;
 
     @BeforeEach
     void setUp() {
@@ -52,7 +52,6 @@ class ExtractorTest {
                 .isInstanceOf(InvalidUrlFormatException.class);
     }
 
-    // TODO: 10/15/21 empty logic
     @Test
     @DisplayName("Should extract urls nested in another url")
     void testThatExtractUrlsInsideAnotherUrls() {
