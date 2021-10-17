@@ -24,8 +24,7 @@ import static java.util.stream.Collectors.toSet;
 
 @Component
 public class ExtractorImpl implements ExtractorUrl {
-    private ValidatorUrl validator;
-
+    private final ValidatorUrl validator;
 
     @Autowired
     public ExtractorImpl(ValidatorUrl validator) {

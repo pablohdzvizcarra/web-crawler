@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.model.UrlRequest;
@@ -24,18 +25,19 @@ public class TemplateController {
     @RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("request", new UrlRequest());
+        model.addAttribute("listUrls", new ArrayList<>());
 
         return "index";
     }
 
-    @PostMapping("/crawler")
+    @PostMapping("/")
     public String findByUrl(@ModelAttribute UrlRequest data, Model model) {
         Set<String> urls = crawlerService.findUrls(data.getUrl());
 
         model.addAttribute("request", new UrlRequest());
         model.addAttribute("listUrls", urls);
 
-        return "withUrls";
+        return "index";
     }
 
 }

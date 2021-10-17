@@ -14,12 +14,8 @@ import jvm.pablo.webcrawler.extractor.ExtractorImpl;
 
 @Component
 public class Crawler {
-
-    private ExtractorUrl extractor;
-    private SelectorUrl selectorUrl;
-
-    public Crawler() {
-    }
+    private final ExtractorUrl extractor;
+    private final SelectorUrl selectorUrl;
 
     @Autowired
     public Crawler(ExtractorImpl extractor, SelectorUrl selectorUrl) {
@@ -35,7 +31,7 @@ public class Crawler {
         return extractor.extractUrlsInsidePrimaryUrl(url);
     }
 
-    public HashMap<String, HashMap<String,?>> findUrlsWithStatistics(String url) {
+    public HashMap<String, HashMap<String, ?>> findUrlsWithStatistics(String url) {
         HashMap<String, Collection<String>> mapUrls = new HashMap<>();
         HashMap<String, Integer> mapCount = new HashMap<>();
         Set<String> foundUrls = extractor.extractUrlsInsidePrimaryUrl(url);

@@ -10,6 +10,7 @@ import jvm.pablo.webcrawler.crawler.SelectorUrl;
 
 @Component
 public class SelectorUrlImpl implements SelectorUrl {
+
     @Override
     public List<String> findWithExtensionFile(
             Collection<String> urls, String extension

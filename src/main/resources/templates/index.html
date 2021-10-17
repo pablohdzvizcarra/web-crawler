@@ -11,7 +11,7 @@
 <div class="container">
     <h1 class="py-4 text-center">Basic Web Crawler</h1>
     
-    <form action="#" th:action="@{/crawler}" th:object="${request}" method="post">
+    <form action="#" th:action="@{/}" th:object="${request}" method="post">
         <div class="form-group">
             <label for="searchText">Set a URL</label>
             <input type="text" class="form-control" id="searchText"
@@ -20,6 +20,10 @@
         
         <button type="submit" class="btn btn-primary my-2">Submit</button>
     </form>
+    
+    <ul th:each="url: ${listUrls}" class="list-group">
+        <li th:text="${url}" class="list-group-item"></li>
+    </ul>
 
 </div>
 </body>
