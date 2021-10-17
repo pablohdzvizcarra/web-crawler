@@ -1,8 +1,10 @@
 package jvm.pablo.webcrawler.crawler;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jvm.pablo.webcrawler.selector.SelectorUrlImpl;
@@ -19,6 +21,7 @@ class SelectorUrlTest {
     }
 
     @Test
+    @DisplayName("should filter out urls ending with the extension")
     void testThatFindUrlsWithExtensionJavascript() {
         List<String> listUrls = createListUrlsWithExtension(".js");
 
@@ -28,6 +31,17 @@ class SelectorUrlTest {
         assertThat(actualUrls.size())
                 .isNotNull()
                 .isEqualTo(expectedSize);
+    }
+
+    @Test
+    void testThatEmptyList() {
+        List<String> emptyList = new ArrayList<>();
+
+        List<String> urls = underTest.findWithExtensionFile(emptyList, ".css");
+        int actualSize = urls.size();
+        int expectedSize = 0;
+
+        assertThat(actualSize).isEqualTo(expectedSize);
     }
 
     private List<String> createListUrlsWithExtension(String extension) {
