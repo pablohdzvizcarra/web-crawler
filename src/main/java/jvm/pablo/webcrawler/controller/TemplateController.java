@@ -25,6 +25,7 @@ public class TemplateController {
 
     @RequestMapping
     public String index(Model model) {
+        model.addAttribute("selected", false);
         model.addAttribute("request", new UrlRequest());
         model.addAttribute("listUrls", new ArrayList<>());
 
@@ -34,6 +35,17 @@ public class TemplateController {
     @PostMapping
     public String findByUrl(@ModelAttribute UrlRequest data, Model model) {
         Set<String> urls = crawlerService.findUrls(data.getUrl());
+        model.addAttribute("selected", false);
+        model.addAttribute("request", new UrlRequest());
+        model.addAttribute("listUrls", urls);
+
+        return "index";
+    }
+
+    @PostMapping("/selected")
+    public String findBySelected(@ModelAttribute UrlRequest data, Model model) {
+        Set<String> urls = crawlerService.findUrls(data.getUrl());
+        model.addAttribute("selected", false);
         model.addAttribute("request", new UrlRequest());
         model.addAttribute("listUrls", urls);
 
