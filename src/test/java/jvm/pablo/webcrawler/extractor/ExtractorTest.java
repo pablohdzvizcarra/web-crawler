@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
@@ -57,7 +57,7 @@ class ExtractorTest {
     void testThatExtractUrlsInsideAnotherUrls() {
         String url = "https://github.com/EnzoDiazDev";
 
-        List<Set<String>> actualNestedUrls = extractor.extractNestedUrls(url);
+        Map<Set<String>, Set<String>> actualNestedUrls = extractor.extractNestedUrls(url);
 
         assertThat(actualNestedUrls != null).isTrue();
     }

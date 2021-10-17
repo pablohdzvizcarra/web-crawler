@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +34,13 @@ public class CrawlerController {
     @GetMapping(value = "/recursive", params = "url")
     public ResponseEntity<?> findRecursive(@RequestParam String url) {
         Map<Set<String>, Set<String>> recursive = crawlerService.findRecursive(url);
+
+        return ResponseEntity.ok(recursive);
+    }
+
+    @GetMapping(value = "/recursive/status", params = "url")
+    public ResponseEntity<?> findStatistics(@RequestParam String url) {
+        HashMap<String, Collection<?>> recursive = crawlerService.findWithStatistics(url);
 
         return ResponseEntity.ok(recursive);
     }

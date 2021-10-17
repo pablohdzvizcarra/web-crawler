@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,4 +38,10 @@ public class CrawlerServiceImpl implements CrawlerService {
     public Map<Set<String>, Set<String>> findRecursive(String url) {
         return crawler.recursiveFindUrls(url);
     }
+
+    @Override
+    public HashMap<String, Collection<?>> findWithStatistics(String url) {
+        return crawler.findUrlsWithStatistics(url);
+    }
+
 }
