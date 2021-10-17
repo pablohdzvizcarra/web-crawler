@@ -14,6 +14,7 @@ import jvm.pablo.webcrawler.model.UrlRequest;
 import jvm.pablo.webcrawler.service.CrawlerService;
 
 @Controller
+@RequestMapping("/")
 public class TemplateController {
     private final CrawlerService crawlerService;
 
@@ -22,7 +23,7 @@ public class TemplateController {
         this.crawlerService = crawlerService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping
     public String index(Model model) {
         model.addAttribute("request", new UrlRequest());
         model.addAttribute("listUrls", new ArrayList<>());
@@ -30,10 +31,9 @@ public class TemplateController {
         return "index";
     }
 
-    @PostMapping("/")
+    @PostMapping
     public String findByUrl(@ModelAttribute UrlRequest data, Model model) {
         Set<String> urls = crawlerService.findUrls(data.getUrl());
-
         model.addAttribute("request", new UrlRequest());
         model.addAttribute("listUrls", urls);
 
