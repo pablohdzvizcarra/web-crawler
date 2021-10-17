@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.crawler.Crawler;
+import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
 
 @Service
 public class CrawlerServiceImpl implements CrawlerService {
@@ -25,6 +26,9 @@ public class CrawlerServiceImpl implements CrawlerService {
     @Override
     public Set<String> findUrls(String url) {
         Set<String> urlList = crawler.processUrl(url);
+
+        if (urlList.size() == 0)
+            throw new InvalidUrlFormatException(url);
 
         logger.info(
                 "Find: " + urlList.size() + " urls inside the passed url: " + url

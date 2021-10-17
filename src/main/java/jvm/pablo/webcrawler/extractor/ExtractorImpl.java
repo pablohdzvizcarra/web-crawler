@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,7 +56,7 @@ public class ExtractorImpl implements ExtractorUrl {
     @Override
     public Set<String> extractUrlsInsidePrimaryUrl(String url) {
         if (!validator.validateUrl(url))
-            return null;
+            return Collections.emptySet();
 
         String htmlString = extractHtmlStringToUrl(url);
         UrlDetector parser = new UrlDetector(htmlString, UrlDetectorOptions.QUOTE_MATCH);
