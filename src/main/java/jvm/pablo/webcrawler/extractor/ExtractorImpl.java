@@ -4,6 +4,7 @@ import com.linkedin.urls.Url;
 import com.linkedin.urls.detection.UrlDetector;
 import com.linkedin.urls.detection.UrlDetectorOptions;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
@@ -18,9 +19,20 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+import jvm.pablo.webcrawler.validator.ValidatorUrl;
 
 @Component
-public class ExtractorImpl implements Extractor {
+public class ExtractorImpl implements ExtractorUrl {
+
+    private ValidatorUrl validator;
+
+    public ExtractorImpl() {
+    }
+
+    @Autowired
+    public ExtractorImpl(ValidatorUrl validator) {
+        this.validator = validator;
+    }
 
     @Override
     public String extractHtmlStringToUrl(String url) {
@@ -45,7 +57,7 @@ public class ExtractorImpl implements Extractor {
 
     @Override
     public Set<String> extractUrlsInsidePrimaryUrl(String url) {
-        if (!urlIsValid(url))
+        if (!validator.validateUrl(url))
             return null;
 
         String htmlString = extractHtmlStringToUrl(url);
@@ -54,24 +66,11 @@ public class ExtractorImpl implements Extractor {
 
         return urlList.stream()
                 .map(Url::getFullUrl)
-                .filter(subUrl -> subUrl.startsWith("https://"))
-//                .filter(this::urlIsValid)
+                .filter(urlHttp -> !validator.validateHttpUrl(urlHttp))
+                .map(urlHttps -> validator.cleanHtmlTagToUrl(urlHttps, '<'))
+                .map(urlHttps -> validator.cleanHtmlTagToUrl(urlHttps, '>'))
+                .filter(validator::validateUrl)
                 .collect(Collectors.toSet());
-    }
-
-    private boolean urlIsValid(String url) {
-        String regex = "((http|https)://)(www.)?"
-                + "[a-zA-Z0-9@:%._+~#?&/=]"
-                + "{2,256}\\.[a-z]"
-                + "{2,6}\\b([-a-zA-Z0-9@:%"
-                + "._+~#?&/=]*)";
-
-        Pattern pattern = Pattern.compile(regex);
-
-        if (url == null)
-            return false;
-        Matcher matcher = pattern.matcher(url);
-        return matcher.matches();
     }
 
     @Override
