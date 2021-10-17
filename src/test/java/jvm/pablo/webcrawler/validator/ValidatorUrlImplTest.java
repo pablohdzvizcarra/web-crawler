@@ -65,4 +65,14 @@ class ValidatorUrlImplTest {
 
         assertThat(actualUrl).doesNotContain("<");
     }
+
+    @Test
+    @DisplayName("should return same url if the url not contains tag html <")
+    void testThatReturnSameUrlWithCorrectFormat() {
+        String url = "https://github.com/PabloHdzVizcarra";
+
+        String actualUrl = underTest.cleanHtmlTagToUrl(url);
+
+        assertThat(actualUrl).isEqualTo(url);
+    }
 }
