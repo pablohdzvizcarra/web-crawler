@@ -8,16 +8,19 @@ import java.util.Map;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+import jvm.pablo.webcrawler.validator.ValidatorUrlImpl;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ExtractorTest {
     private ExtractorUrl extractor;
+    private ValidatorUrlImpl validator;
 
     @BeforeEach
     void setUp() {
-        extractor = new ExtractorImpl();
+        validator = new ValidatorUrlImpl();
+        extractor = new ExtractorImpl(validator);
     }
 
     @Test
@@ -55,7 +58,7 @@ class ExtractorTest {
     @Test
     @DisplayName("Should extract urls nested in another url")
     void testThatExtractUrlsInsideAnotherUrls() {
-        String url = "https://github.com/EnzoDiazDev";
+        String url = "https://www.geeksforgeeks.org/";
 
         Map<Set<String>, Set<String>> actualNestedUrls = extractor.extractNestedUrls(url);
 

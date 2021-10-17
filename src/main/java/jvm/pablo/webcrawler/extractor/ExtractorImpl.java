@@ -24,11 +24,8 @@ import static java.util.stream.Collectors.toSet;
 
 @Component
 public class ExtractorImpl implements ExtractorUrl {
-
     private ValidatorUrl validator;
 
-    public ExtractorImpl() {
-    }
 
     @Autowired
     public ExtractorImpl(ValidatorUrl validator) {
@@ -78,7 +75,7 @@ public class ExtractorImpl implements ExtractorUrl {
     public Map<Set<String>, Set<String>> extractNestedUrls(String url) {
         Set<String> urls = extractUrlsInsidePrimaryUrl(url);
 
-        return urls.stream().collect(
+        return urls.parallelStream().collect(
                 groupingBy(this::extractUrlsInsidePrimaryUrl, toSet())
         );
     }
