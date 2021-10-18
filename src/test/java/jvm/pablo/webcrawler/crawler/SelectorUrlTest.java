@@ -51,6 +51,25 @@ class SelectorUrlTest {
                 "https://www.geeksforgeeks.org/category/algorithm/",
                 "https://media.geeksforgeeks.org/cdn-uploads/20210727192049/CP_ad_icon" + extension,
                 "https://media.geeksforgeeks.org/cdn-uploads/20210727192049/CP_ad_icon" + extension
-                );
+        );
+    }
+
+    @Test
+    @DisplayName("should find the references to another urls")
+    void testThatFindReferencesToAnotherUrls() {
+        List<String> urlList = List.of(
+                "https://github.com/PabloHdzVizcarra",
+                "https://github.com/Glazzes",
+                "https://docs.oracle.com/en/java/javase/11/docs/api/index.html",
+                "https://www.baeldung.com/cs/"
+        );
+
+        List<String> foundedUrls = underTest.findReferencesToAnotherPages(
+                "https://github.com", urlList);
+        int actualSizeList = foundedUrls.size();
+        int expectedSizeList = 2;
+
+        assertThat(actualSizeList).isEqualTo(expectedSizeList);
+
     }
 }
