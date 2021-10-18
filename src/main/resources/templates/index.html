@@ -19,18 +19,18 @@
                    placeholder="https://www.google.com" th:field="*{url}">
         </div>
         
-        <button type="submit" class="btn btn-primary my-2">Submit</button>
+        <button type="submit" class="btn btn-dark my-2">Submit</button>
     </form>
     
     <div th:if="${selected == true}" class="container mt-2">
         <h2>Selected Urls</h2>
     </div>
     
-    <div class="container mt-2">
-        <h2 th:if="${#lists.size(listUrls) > 0}">
+    <div class="container" th:if="${#lists.size(listUrls) > 0}">
+        <h2>
             Number of urls inside: <span th:text="${#lists.size(listUrls)}"></span>
         </h2>
-        
+    
         <ul th:each="url: ${listUrls}" class="list-group">
             <li th:text="${url}" class="list-group-item"></li>
         </ul>
