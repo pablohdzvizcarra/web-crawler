@@ -31,33 +31,47 @@ public class Crawler {
         return extractor.extractUrlsInsidePrimaryUrl(url);
     }
 
-    // TODO: 10/18/21 refactor this
     public HashMap<String, HashMap<String, ?>> findUrlsWithStatistics(String url) {
-        HashMap<String, Collection<String>> mapUrls = new HashMap<>();
-        HashMap<String, Integer> mapCount = new HashMap<>();
         Set<String> foundUrls = extractor.extractUrlsInsidePrimaryUrl(url);
-
-        List<String> filesJs = selectorUrl.findWithExtensionFile(foundUrls, ".js");
-        List<String> filesCss = selectorUrl.findWithExtensionFile(foundUrls, ".css");
-        List<String> filesPng = selectorUrl.findWithExtensionFile(foundUrls, ".png");
-        List<String> filesJson = selectorUrl.findWithExtensionFile(foundUrls, ".json");
-
-        mapUrls.put("urls", foundUrls);
-        mapUrls.put("javascript", filesJs);
-        mapUrls.put("css", filesCss);
-        mapUrls.put("png", filesPng);
-        mapUrls.put("json", filesJson);
-
-        mapCount.put("urls", foundUrls.size());
-        mapCount.put("javascript", filesJs.size());
-        mapCount.put("css", filesCss.size());
-        mapCount.put("png", filesPng.size());
-        mapCount.put("json", filesJson.size());
+        HashMap<String, Collection<String>> selectedByExtensionUrls = createMapUrls(foundUrls, url);
+        HashMap<String, Integer> urlsCountResponse = createUrlsCountResponse(selectedByExtensionUrls);
 
         HashMap<String, HashMap<String, ?>> result = new HashMap<>();
-        result.put("urls", mapUrls);
-        result.put("count", mapCount);
+        result.put("urls", selectedByExtensionUrls);
+        result.put("count", urlsCountResponse);
         return result;
+    }
+
+    private HashMap<String, Collection<String>> createMapUrls(Collection<String> urls, String url) {
+        HashMap<String, Collection<String>> hashMap = new HashMap<>();
+        List<String> filesJs = selectorUrl.findWithExtensionFile(urls, ".js");
+        List<String> filesCss = selectorUrl.findWithExtensionFile(urls, ".css");
+        List<String> filesPng = selectorUrl.findWithExtensionFile(urls, ".png");
+        List<String> filesJson = selectorUrl.findWithExtensionFile(urls, ".json");
+        List<String> anotherWebPages = selectorUrl.findReferencesToAnotherPages(url, urls);
+
+        hashMap.put("urls", urls);
+        hashMap.put("othersPages", anotherWebPages);
+        hashMap.put("javascript", filesJs);
+        hashMap.put("css", filesCss);
+        hashMap.put("png", filesPng);
+        hashMap.put("json", filesJson);
+
+        return hashMap;
+    }
+
+    private HashMap<String, Integer> createUrlsCountResponse(
+            HashMap<String, Collection<String>> selectedUrls) {
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        hashMap.put("urls", selectedUrls.get("urls").size());
+        hashMap.put("javascript", selectedUrls.get("javascript").size());
+        hashMap.put("css", selectedUrls.get("css").size());
+        hashMap.put("png", selectedUrls.get("png").size());
+        hashMap.put("json", selectedUrls.get("json").size());
+        hashMap.put("referencesOtherUrls", selectedUrls.get("othersPages").size());
+
+        return hashMap;
     }
 
 }

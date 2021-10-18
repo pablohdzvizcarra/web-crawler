@@ -24,10 +24,10 @@ public class SelectorUrlImpl implements SelectorUrl {
     }
 
     @Override
-    public List<String> findReferencesToAnotherPages(String url, List<String> urlList) {
+    public List<String> findReferencesToAnotherPages(String url, Collection<String> urlList) {
         String domain = getHostnameFromUrl(url);
         return urlList.stream()
-                    .filter(eachUrl -> eachUrl.contains(domain))
+                    .filter(eachUrl -> !eachUrl.contains(domain))
                     .collect(Collectors.toList());
     }
 
