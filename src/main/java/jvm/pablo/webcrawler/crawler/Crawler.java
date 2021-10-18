@@ -31,6 +31,7 @@ public class Crawler {
         return extractor.extractUrlsInsidePrimaryUrl(url);
     }
 
+    // TODO: 10/18/21 refactor this
     public HashMap<String, HashMap<String, ?>> findUrlsWithStatistics(String url) {
         HashMap<String, Collection<String>> mapUrls = new HashMap<>();
         HashMap<String, Integer> mapCount = new HashMap<>();
