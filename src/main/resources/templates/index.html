@@ -10,7 +10,9 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="py-4 text-center">Basic Url Analyzer</h1>
+    <a th:href="@{/}" style="text-decoration: none" class="text-black-50">
+        <h1 class="py-4 text-center">Basic Url Analyzer</h1>
+    </a>
     
     <form action="#" th:action="@{/}" th:object="${request}" method="post">
         <div class="form-group">
@@ -22,21 +24,129 @@
         <button type="submit" class="btn btn-dark my-2">Submit</button>
     </form>
     
-    <div th:if="${selected == true}" class="container mt-2">
-        <h2>Selected Urls</h2>
+    
+    
+    <div class="container" th:if="${selectedUrl}">
+        <div class="container" th:if="${#lists.size(listUrls) > 0}">
+            <h2>Separate by Selection</h2>
+            <ul class="list-group">
+                <li class="list-group-item d-flex align-items-center">
+                    Number of urls inside: <span th:text="${#lists.size(listUrls)}"></span>
+                </li>
+                
+                <li class="list-group-item d-flex align-items-center">
+                    Number of urls inside that refer to other pages:
+                    <span th:text="${#lists.size(listAnotherUrl)}"></span>
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    Javascript files inside the page:
+                    <span th:text="${#lists.size(listJS)}"></span>
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    CSS files inside the page:
+                    <span th:text="${#lists.size(listCSS)}"></span>
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    Images files inside the page:
+                    <span th:text="${#lists.size(listPNG)}"></span>
+                </li>
+                <li class="list-group-item d-flex align-items-center">
+                    JSON files inside the page:
+                    <span th:text="${#lists.size(listJSON)}"></span>
+                </li>
+            </ul>
+            
+            <div class="container mt-2">
+                <h3>Reference to other pages</h3>
+                <ul th:each="url: ${listAnotherUrl}" class="list-group">
+                    <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                </ul>
+            </div>
+    
+            <div class="container mt-2">
+                <h3>Javascript Files</h3>
+                <div th:if="${#lists.size(listJS) > 0}">
+                    <ul th:each="url: ${listJS}" class="list-group">
+                        <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                    </ul>
+                </div>
+    
+                <div th:unless="${#lists.size(listJS) > 0}">
+                    <p class="text-danger">Sorry the page not contains files Javascript</p>
+                </div>
+                
+            </div>
+    
+            <div class="container mt-2">
+                <h3>CSS Files</h3>
+                <ul th:each="url: ${listCSS}" class="list-group">
+                    <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                </ul>
+    
+                <div th:if="${#lists.size(listCSS) > 0}">
+                    <ul th:each="url: ${listCSS}" class="list-group">
+                        <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                    </ul>
+                </div>
+    
+                <div th:unless="${#lists.size(listCSS) > 0}">
+                    <p class="text-danger">Sorry the page not contains files CSS</p>
+                </div>
+            </div>
+    
+            <div class="container mt-2">
+                <h3>Images Files</h3>
+                <ul th:each="url: ${listPNG}" class="list-group">
+                    <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                </ul>
+    
+                <div th:if="${#lists.size(listPNG) > 0}">
+                    <ul th:each="url: ${listPNG}" class="list-group">
+                        <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                    </ul>
+                </div>
+    
+                <div th:unless="${#lists.size(listPNG) > 0}">
+                    <p class="text-danger">Sorry the page not contains images files</p>
+                </div>
+    
+            </div>
+    
+            <div class="container mt-2">
+                <h3>Json Files</h3>
+                <ul th:each="url: ${listJSON}" class="list-group">
+                    <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                </ul>
+    
+                <div th:if="${#lists.size(listJSON) > 0}">
+                    <ul th:each="url: ${listJSON}" class="list-group">
+                        <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                    </ul>
+                </div>
+    
+                <div th:unless="${#lists.size(listJSON) > 0}">
+                    <p class="text-danger">Sorry the page not contains JSON files</p>
+                </div>
+            </div>
+    
+            <div class="container mt-2">
+                <h3>All Urls Inside</h3>
+                <ul th:each="url: ${listUrls}" class="list-group">
+                    <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+                </ul>
+            </div>
+        
+            <ul th:each="url: ${listUrls}" class="list-group">
+                <a th:text="${url}" class="list-group-item" th:href="${url}"></a>
+            </ul>
+        </div>
     </div>
     
-    <div class="container" th:if="${#lists.size(listUrls) > 0}">
-        <h2>
-            Number of urls inside: <span th:text="${#lists.size(listUrls)}"></span>
-        </h2>
-    
-        <ul th:each="url: ${listUrls}" class="list-group">
-            <li th:text="${url}" class="list-group-item"></li>
-        </ul>
-    </div>
-
+    <footer class="d-flex justify-content-center m-4 text-black-50">
+        Made by Pablo Hernandez
+    </footer>
 
 </div>
+
 </body>
 </html>
