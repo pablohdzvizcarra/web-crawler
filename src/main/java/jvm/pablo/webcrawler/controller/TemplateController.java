@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import jvm.pablo.webcrawler.model.SafeUrl;
 import jvm.pablo.webcrawler.model.UrlRequest;
 import jvm.pablo.webcrawler.service.CrawlerService;
 
@@ -35,7 +36,7 @@ public class TemplateController {
 
     @PostMapping
     public String findByUrl(@ModelAttribute UrlRequest data, Model model) {
-        Set<String> urls = crawlerService.findUrls(data.getUrl());
+        Set<SafeUrl> urls = crawlerService.findUrls(data.getUrl());
         model.addAttribute("selected", false);
         model.addAttribute("request", new UrlRequest());
         model.addAttribute("listUrls", urls);
@@ -45,10 +46,9 @@ public class TemplateController {
 
     @PostMapping("/selected")
     public String findBySelected(@ModelAttribute UrlRequest data, Model model) {
-        Set<String> urls = crawlerService.findUrls(data.getUrl());
+        Set<SafeUrl> urls = crawlerService.findUrls(data.getUrl());
         HashMap<String, HashMap<String, ?>> selectedUrls =
                 crawlerService.findWithStatistics(data.getUrl());
-
 
         model.addAttribute("selected", false);
         model.addAttribute("request", new UrlRequest());

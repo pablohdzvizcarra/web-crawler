@@ -10,34 +10,32 @@ import java.util.Set;
 import jvm.pablo.webcrawler.extractor.ExtractorImpl;
 import jvm.pablo.webcrawler.extractor.ExtractorUrl;
 import jvm.pablo.webcrawler.model.ModelResponseCrawlerComponent;
+import jvm.pablo.webcrawler.model.SafeUrl;
 
 @Component
 public class Crawler {
     private final ExtractorUrl extractor;
-    private final SelectorUrl selectorUrl;
     private final ModelResponseCrawlerComponent responseCrawlerComponent;
 
     @Autowired
     public Crawler(
             ExtractorImpl extractor,
-            SelectorUrl selectorUrl,
             ModelResponseCrawlerComponent responseCrawlerComponent
     ) {
         this.extractor = extractor;
-        this.selectorUrl = selectorUrl;
         this.responseCrawlerComponent = responseCrawlerComponent;
     }
 
-    public Map<Set<String>, Set<String>> recursiveFindUrls(String url) {
+    public Map<Set<SafeUrl>, Set<String>> recursiveFindUrls(String url) {
         return extractor.extractNestedUrls(url);
     }
 
-    public Set<String> processUrl(String url) {
+    public Set<SafeUrl> processUrl(String url) {
         return extractor.extractUrlsInsidePrimaryUrl(url);
     }
 
     public HashMap<String, HashMap<String, ?>> findUrlsWithStatistics(String url) {
-        Set<String> foundUrls = extractor.extractUrlsInsidePrimaryUrl(url);
+        Set<SafeUrl> foundUrls = extractor.extractUrlsInsidePrimaryUrl(url);
 
         return responseCrawlerComponent.selectedByExtension(foundUrls, url);
     }

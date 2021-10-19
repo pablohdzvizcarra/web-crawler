@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import jvm.pablo.webcrawler.model.SafeUrl;
 import jvm.pablo.webcrawler.service.CrawlerService;
 
 @RestController
@@ -25,14 +26,14 @@ public class CrawlerController {
 
 
     @GetMapping(params = "url")
-    public ResponseEntity<Set<String>> findUrls(@RequestParam String url) {
-        Set<String> urls = crawlerService.findUrls(url);
+    public ResponseEntity<Set<SafeUrl>> findUrls(@RequestParam String url) {
+        Set<SafeUrl> urls = crawlerService.findUrls(url);
         return ResponseEntity.ok(urls);
     }
 
     @GetMapping(value = "/recursive", params = "url")
     public ResponseEntity<?> findRecursive(@RequestParam String url) {
-        Map<Set<String>, Set<String>> recursive = crawlerService.findRecursive(url);
+        Map<Set<SafeUrl>, Set<String>> recursive = crawlerService.findRecursive(url);
 
         return ResponseEntity.ok(recursive);
     }
