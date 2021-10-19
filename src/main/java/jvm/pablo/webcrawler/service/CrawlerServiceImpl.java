@@ -11,6 +11,7 @@ import java.util.Set;
 
 import jvm.pablo.webcrawler.crawler.Crawler;
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
+import jvm.pablo.webcrawler.model.SafeUrl;
 
 @Service
 public class CrawlerServiceImpl implements CrawlerService {
@@ -24,8 +25,8 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
     @Override
-    public Set<String> findUrls(String url) {
-        Set<String> urlList = crawler.processUrl(url);
+    public Set<SafeUrl> findUrls(String url) {
+        Set<SafeUrl> urlList = crawler.processUrl(url);
 
         if (urlList.size() == 0)
             throw new InvalidUrlFormatException(url);
@@ -38,7 +39,7 @@ public class CrawlerServiceImpl implements CrawlerService {
     }
 
     @Override
-    public Map<Set<String>, Set<String>> findRecursive(String url) {
+    public Map<Set<SafeUrl>, Set<String>> findRecursive(String url) {
         return crawler.recursiveFindUrls(url);
     }
 
