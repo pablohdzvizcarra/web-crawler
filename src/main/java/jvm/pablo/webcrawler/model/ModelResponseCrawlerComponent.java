@@ -12,6 +12,20 @@ import jvm.pablo.webcrawler.crawler.SelectorUrl;
 @Component
 public class ModelResponseCrawlerComponent {
     private final SelectorUrl selectorUrl;
+    public static final String JS_URL = "javascriptUrls";
+    public static final String ALL_URLS = "allUrls";
+    public static final String CSS_URL = "cssUrls";
+    public static final String JSON_URL = "jsonUrls";
+    public static final String PNG_URL = "pngUrls";
+    public static final String OTHERS_URLS = "othersUrls";
+    public static final String CSS_NUMBER = "cssNumber";
+    public static final String JS_NUMBER = "jsNumber";
+    public static final String PNG_NUMBER = "pngNumber";
+    public static final String JSON_NUMBER = "jsonNumber";
+    public static final String ALL_URLS_NUMBER = "allUrlsNumber";
+    public static final String OTHERS_URLS_NUMBER = "othersUrlsNumber";
+    public static final String KEY_URLS = "urls";
+    public static final String KEY_QUANTITY = "quantity";
 
     @Autowired
     public ModelResponseCrawlerComponent(SelectorUrl selectorUrl) {
@@ -24,8 +38,8 @@ public class ModelResponseCrawlerComponent {
         HashMap<String, Integer> urlsCount = createUrlsCountResponse(separateUrls);
 
         HashMap<String, HashMap<String, ?>> result = new HashMap<>();
-        result.put("urls", separateUrls);
-        result.put("count", urlsCount);
+        result.put(KEY_URLS, separateUrls);
+        result.put(KEY_QUANTITY, urlsCount);
 
         return result;
     }
@@ -38,12 +52,12 @@ public class ModelResponseCrawlerComponent {
         List<String> filesJson = selectorUrl.findWithExtensionFile(urls, ".json");
         List<String> anotherWebPages = selectorUrl.findReferencesToAnotherPages(url, urls);
 
-        hashMap.put("allUrls", urls);
-        hashMap.put("othersPages", anotherWebPages);
-        hashMap.put("javascript", filesJs);
-        hashMap.put("css", filesCss);
-        hashMap.put("png", filesPng);
-        hashMap.put("json", filesJson);
+        hashMap.put(ALL_URLS, urls);
+        hashMap.put(OTHERS_URLS, anotherWebPages);
+        hashMap.put(JS_URL, filesJs);
+        hashMap.put(CSS_URL, filesCss);
+        hashMap.put(PNG_URL, filesPng);
+        hashMap.put(JSON_URL, filesJson);
 
         return hashMap;
     }
@@ -52,12 +66,12 @@ public class ModelResponseCrawlerComponent {
             HashMap<String, Collection<String>> selectedUrls) {
         HashMap<String, Integer> hashMap = new HashMap<>();
 
-        hashMap.put("allUrls", selectedUrls.get("allUrls").size());
-        hashMap.put("javascript", selectedUrls.get("javascript").size());
-        hashMap.put("css", selectedUrls.get("css").size());
-        hashMap.put("png", selectedUrls.get("png").size());
-        hashMap.put("json", selectedUrls.get("json").size());
-        hashMap.put("referencesOtherUrls", selectedUrls.get("othersPages").size());
+        hashMap.put(ALL_URLS_NUMBER, selectedUrls.get(ALL_URLS).size());
+        hashMap.put(JS_NUMBER, selectedUrls.get(JS_URL).size());
+        hashMap.put(CSS_NUMBER, selectedUrls.get(CSS_URL).size());
+        hashMap.put(PNG_NUMBER, selectedUrls.get(PNG_URL).size());
+        hashMap.put(JSON_NUMBER, selectedUrls.get(JSON_URL).size());
+        hashMap.put(OTHERS_URLS_NUMBER, selectedUrls.get(OTHERS_URLS).size());
 
         return hashMap;
     }
