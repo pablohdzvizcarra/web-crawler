@@ -10,7 +10,6 @@ import java.util.Set;
 import jvm.pablo.webcrawler.extractor.ExtractorImpl;
 import jvm.pablo.webcrawler.extractor.ExtractorUrl;
 import jvm.pablo.webcrawler.model.ModelResponseCrawlerComponent;
-import jvm.pablo.webcrawler.model.SafeUrl;
 
 @Component
 public class Crawler {
@@ -26,16 +25,16 @@ public class Crawler {
         this.responseCrawlerComponent = responseCrawlerComponent;
     }
 
-    public Map<Set<SafeUrl>, Set<String>> recursiveFindUrls(String url) {
+    public Map<Set<String>, Set<Object>> recursiveFindUrls(String url) {
         return extractor.extractNestedUrls(url);
     }
 
-    public Set<SafeUrl> processUrl(String url) {
+    public Set<String> processUrl(String url) {
         return extractor.extractUrlsInsidePrimaryUrl(url);
     }
 
     public HashMap<String, HashMap<String, ?>> findUrlsWithStatistics(String url) {
-        Set<SafeUrl> foundUrls = extractor.extractUrlsInsidePrimaryUrl(url);
+        Set<String> foundUrls = extractor.extractUrlsInsidePrimaryUrl(url);
 
         return responseCrawlerComponent.selectedByExtension(foundUrls, url);
     }

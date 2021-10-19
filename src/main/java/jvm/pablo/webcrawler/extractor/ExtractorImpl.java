@@ -18,7 +18,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
-import jvm.pablo.webcrawler.model.SafeUrl;
 import jvm.pablo.webcrawler.validator.ValidatorUrl;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -55,7 +54,7 @@ public class ExtractorImpl implements ExtractorUrl {
     }
 
     @Override
-    public Set<SafeUrl> extractUrlsInsidePrimaryUrl(String url) {
+    public Set<String> extractUrlsInsidePrimaryUrl(String url) {
         if (!validator.validateUrl(url))
             return Collections.emptySet();
 
@@ -69,16 +68,14 @@ public class ExtractorImpl implements ExtractorUrl {
                 .map(urlHttps -> validator.cleanHtmlTagToUrl(urlHttps, '<'))
                 .map(urlHttps -> validator.cleanHtmlTagToUrl(urlHttps, '>'))
                 .filter(validator::validateUrl)
-                .map(SafeUrl::new)
                 .collect(Collectors.toSet());
     }
 
     @Override
-    public Map<Set<SafeUrl>, Set<String>> extractNestedUrls(String url) {
-        Set<SafeUrl> urls = extractUrlsInsidePrimaryUrl(url);
+    public Map<Set<String>, Set<Object>> extractNestedUrls(String url) {
+        Set<String> urls = extractUrlsInsidePrimaryUrl(url);
 
         return urls.parallelStream()
-                .map(SafeUrl::getValue)
                 .collect(
                 groupingBy(this::extractUrlsInsidePrimaryUrl, toSet())
         );

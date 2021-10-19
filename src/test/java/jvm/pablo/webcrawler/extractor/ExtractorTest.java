@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
-import jvm.pablo.webcrawler.model.SafeUrl;
 import jvm.pablo.webcrawler.validator.ValidatorUrlImpl;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -42,7 +41,7 @@ class ExtractorTest {
     void extractUrlsInsideHtmlString() {
         String url = "https://github.com/PabloHdzVizcarra";
 
-        Set<SafeUrl> actualUrlList = extractor.extractUrlsInsidePrimaryUrl(url);
+        Set<String> actualUrlList = extractor.extractUrlsInsidePrimaryUrl(url);
         
         assertThat(actualUrlList.size() > 0).isTrue();
     }
@@ -61,7 +60,7 @@ class ExtractorTest {
     void testThatExtractUrlsInsideAnotherUrls() {
         String url = "https://www.geeksforgeeks.org/";
 
-        Map<Set<SafeUrl>, Set<String>> actualNestedUrls = extractor.extractNestedUrls(url);
+        Map<Set<String>, Set<Object>> actualNestedUrls = extractor.extractNestedUrls(url);
 
         assertThat(actualNestedUrls != null).isTrue();
     }
