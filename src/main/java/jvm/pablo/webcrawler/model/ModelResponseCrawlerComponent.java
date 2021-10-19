@@ -33,8 +33,8 @@ public class ModelResponseCrawlerComponent {
     }
 
     public HashMap<String, HashMap<String, ?>> selectedByExtension(
-            Collection<SafeUrl> urlsList, String primaryUrl) {
-        HashMap<String, Collection<SafeUrl>> separateUrls = createMapUrls(urlsList, primaryUrl);
+            Collection<String> urlsList, String primaryUrl) {
+        HashMap<String, Collection<String>> separateUrls = createMapUrls(urlsList, primaryUrl);
         HashMap<String, Integer> urlsCount = createUrlsCountResponse(separateUrls);
 
         HashMap<String, HashMap<String, ?>> result = new HashMap<>();
@@ -44,13 +44,14 @@ public class ModelResponseCrawlerComponent {
         return result;
     }
 
-    private HashMap<String, Collection<SafeUrl>> createMapUrls(Collection<SafeUrl> urls, String url) {
-        HashMap<String, Collection<SafeUrl>> hashMap = new HashMap<>();
-        List<SafeUrl> filesJs = selectorUrl.findWithExtensionFile(urls, ".js");
-        List<SafeUrl> filesCss = selectorUrl.findWithExtensionFile(urls, ".css");
-        List<SafeUrl> filesPng = selectorUrl.findWithExtensionFile(urls, ".png");
-        List<SafeUrl> filesJson = selectorUrl.findWithExtensionFile(urls, ".json");
-        List<SafeUrl> anotherWebPages = selectorUrl.findReferencesToAnotherPages(url, urls);
+    private HashMap<String, Collection<String>> createMapUrls(Collection<String> urls,
+                                                              String url) {
+        HashMap<String, Collection<String>> hashMap = new HashMap<>();
+        List<String> filesJs = selectorUrl.findWithExtensionFile(urls, ".js");
+        List<String> filesCss = selectorUrl.findWithExtensionFile(urls, ".css");
+        List<String> filesPng = selectorUrl.findWithExtensionFile(urls, ".png");
+        List<String> filesJson = selectorUrl.findWithExtensionFile(urls, ".json");
+        List<String> anotherWebPages = selectorUrl.findReferencesToAnotherPages(url, urls);
 
         hashMap.put(ALL_URLS, urls);
         hashMap.put(OTHERS_URLS, anotherWebPages);
@@ -63,7 +64,7 @@ public class ModelResponseCrawlerComponent {
     }
 
     private HashMap<String, Integer> createUrlsCountResponse(
-            HashMap<String, Collection<SafeUrl>> selectedUrls) {
+            HashMap<String, Collection<String>> selectedUrls) {
         HashMap<String, Integer> hashMap = new HashMap<>();
 
         hashMap.put(ALL_URLS_NUMBER, selectedUrls.get(ALL_URLS).size());

@@ -10,29 +10,24 @@ import java.util.stream.Collectors;
 
 import jvm.pablo.webcrawler.crawler.SelectorUrl;
 import jvm.pablo.webcrawler.exception.InvalidUrlFormatException;
-import jvm.pablo.webcrawler.model.SafeUrl;
 
 @Component
 public class SelectorUrlImpl implements SelectorUrl {
 
     @Override
-    public List<SafeUrl> findWithExtensionFile(
-            Collection<SafeUrl> urls, String extension
+    public List<String> findWithExtensionFile(
+            Collection<String> urls, String extension
     ) {
         return urls.stream()
-                .map(SafeUrl::getValue)
                 .filter(url -> url.endsWith(extension))
-                .map(SafeUrl::new)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<SafeUrl> findReferencesToAnotherPages(String url, Collection<SafeUrl> urlList) {
+    public List<String> findReferencesToAnotherPages(String url, Collection<String> urlList) {
         String domain = getHostnameFromUrl(url);
         return urlList.stream()
-                .map(SafeUrl::getValue)
                 .filter(eachUrl -> !eachUrl.contains(domain))
-                .map(SafeUrl::new)
                 .collect(Collectors.toList());
     }
 
