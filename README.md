@@ -62,6 +62,8 @@ docker build --build-arg JAR_FILE=build/libs/\*.jar -t [name-image] .
 
 ```shell
 docker build --build-arg JAR_FILE=build/libs/\*.jar -t annonymous/web-crawler .
+
+
 ```
 
 ### 4.3 Run Docker Container
@@ -85,10 +87,7 @@ image name.
 docker pull pablohdz/webcrawler
 ```
 
-<footer style="display: flex; align-items: center; justify-content: center; 
-margin: 10px">
-    Made with <img style="width: 30px" src="https://img.icons8.
-com/fluency/48/000000/hearts.png" 
-alt="Heart"/> by 
-Pablo Hernandez
+
+<footer style="display: flex; align-items: center; justify-content: center; margin: 10px">
+    Made with Love by Pablo Hernandez
 </footer>
