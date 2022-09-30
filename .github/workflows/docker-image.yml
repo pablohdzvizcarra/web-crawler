@@ -1,0 +1,50 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ secrets.IMAGE_TAG }}
+      
+    - name: -- Log into registrry
+      uses: docker/build-push-action@v2.9.0
+      with:
+        registry: ${{ secrets.REGISTRY_NAME }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - name: Build and push docker image
+      id: build-and-push
+      uses: docker/build-push-action@v2.9.0
+      with:
+        context: .
+        push: true
+        tags: ${{ secrets.IMAGE_TAG }}
+    
+    - name: cosign-installer
+      uses: sigstore/cosign-installer@v2.7.0
+      
+    - name: -- Write signing key to disk
+      run: 'echo "$KEY" > cosing.key'
+      shell: bash
+      env:
+        KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      
+    - name: -- Sign the public docker image
+      env:
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+      run: cosign sign --key cosign.key ${{ secrets.IMAGE_TAG }}
+
+        
+        
